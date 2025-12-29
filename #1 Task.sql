@@ -20,10 +20,10 @@ with cte_count_mentor as (
 	order by month  asc)
 select mentor."month", mentor.count_mentor  ,
 	--coalesce(LAG(mentor.count_mentor, 1) OVER (ORDER BY mentor.month),0) AS prev_count_mentor,
-	mentor.count_mentor - coalesce(LAG(mentor.count_mentor , 1) OVER (ORDER BY mentor.month),0) as diff_mentor, 
+	mentor.count_mentor - LAG(mentor.count_mentor , 1) OVER (ORDER BY mentor.month) as diff_mentor, 
 	mentee.count_mentee,
 	--coalesce(LAG(mentee.count_mentee, 1) OVER (ORDER BY mentee.month),0) AS prev_count_mentee,
-	mentee.count_mentee - coalesce(LAG(mentee.count_mentee, 1) OVER (ORDER by mentee."month"),0) as diff_mentee
+	mentee.count_mentee - LAG(mentee.count_mentee, 1) OVER (ORDER by mentee."month") as diff_mentee
 from cte_count_mentor as mentor
 join cte_count_mentee as mentee
 on mentor."month" = mentee."month" 
