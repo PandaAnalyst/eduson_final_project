@@ -7,6 +7,7 @@ with count_sessions as (SELECT s.mentor_id,
 			           			
 								count(s.session_id) AS cnt
 				         FROM sessions s
+				         WHERE s.session_status = 'finished'
 				         GROUP BY s.mentor_id, s.mentor_domain_id
 				         			, (date_part('year', s.session_date_time) || '-'
 									|| date_part('month', s.session_date_time) ||
